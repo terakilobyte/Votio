@@ -2,7 +2,7 @@ const MainContent = () => {
   return (
     <div>
       <div className='jumbotron'>
-        <h2>Welcome to Phoenix!</h2>
+        <h2>Welcome to Vot.io, a realtime voting service!</h2>
         <p className='lead'>A productive web framework that<br />does not compromise speed and maintainability.</p>
       </div>
       <div className='row marketing'>
