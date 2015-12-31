@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "node ./node_modules/karma/bin/karma start ./karma.js"
+    "test": "mix test && node ./node_modules/karma/bin/karma start ./karma.js"
   },
   "repository": {},
   "dependencies": {
