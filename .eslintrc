@@ -1,0 +1,22 @@
+{
+  "parser" : "babel-eslint",
+  "extends" : "airbnb",
+  "env" : {
+  "browser" : true,
+  },
+  "globals": {
+    "React": 0,
+    "ReactDOM": 0
+  },
+  "rules": {
+  "comma-dangle" : [1, "never"],
+  "func-names" : 0,
+  "key-spacing" : 0,
+  "space-before-function-paren" : [2, "always"],
+  "no-else-return" : 0,
+  "no-multi-spaces": 0,
+  "quotes" : [2, "single"],
+  "jsx-quotes" : [2, "prefer-single"],
+  "one-var" : 0
+  }
+}
