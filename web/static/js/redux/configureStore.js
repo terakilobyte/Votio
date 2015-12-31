@@ -14,6 +14,15 @@ export default function configureStore (initialState) {
 
   createStoreWithMiddleware = compose(middleware);
 
+  if (window.devToolsExtension) {
+    createStoreWithMiddleware = compose(
+      middleware,
+      window.devToolsExtension()
+    );
+  } else {
+    createStoreWithMiddleware = compose(middleware);
+  }
+
   const store = createStoreWithMiddleware(createStore)(
     rootReducer, initialState
   );
