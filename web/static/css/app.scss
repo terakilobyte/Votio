@@ -18,12 +18,13 @@ form.link, form.button {
   border-bottom: 1px solid #e5e5e5;
 }
 .logo {
-  width: 519px;
+  width: 333px;
   height: 71px;
   display: inline-block;
   margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
-  background-size: 519px 71px;
+  background-image: url("/images/votio.png");
+  background-size: 333px 71px;
+  background-repeat: none;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
