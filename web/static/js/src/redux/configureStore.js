@@ -1,5 +1,5 @@
 import thunk from 'redux-thunk';
-import rootReducer from './modules';
+import rootReducer from './rootReducer.js';
 import {stateHistoryTracker as trackHistory } from 'redux-state-history/lib/stateHistory';
 import {
   applyMiddleware,
