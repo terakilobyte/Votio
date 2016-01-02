@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "mix test && node ./node_modules/karma/bin/karma start ./karma.js"
+    "test": "mix test && node ./node_modules/karma/bin/karma start ./karma.js",
+    "test:watch": "npm test -- --watch"
   },
   "repository": {},
   "dependencies": {
@@ -10,6 +11,9 @@
     "dotenv": "^1.2.0",
     "history": "^1.17.0",
     "jsx-chai": "^2.0.0",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-safari-launcher": "^0.1.1",
     "phantomjs-polyfill": "0.0.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
