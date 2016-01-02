@@ -18,8 +18,18 @@ defmodule Votio.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Votio, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+     applications: [:phoenix,
+                    :phoenix_html,
+                    :cowboy,
+                    :logger,
+                    :gettext,
+                    :phoenix_ecto,
+                    :postgrex,
+                    :oauth,
+                    :ueberauth_github,
+                    :ueberauth_twitter,
+                    :ueberauth_identity
+                   ]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,6 +46,11 @@ defmodule Votio.Mixfile do
      {:phoenix_html, "~> 2.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
+     {:oauth, github: "tim/erlang-oauth"},
+     {:ueberauth, "~> 0.2"},
+     {:ueberauth_github, "~> 0.2"},
+     {:ueberauth_twitter, "~> 0.2"},
+     {:ueberauth_identity, "~> 0.2"},
      {:cowboy, "~> 1.0"}]
   end
 
