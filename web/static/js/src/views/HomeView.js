@@ -8,7 +8,6 @@ import MainContent from 'components/MainContent';
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
   routerState : state.router
-
 });
 
 export class HomeView extends React.Component {
