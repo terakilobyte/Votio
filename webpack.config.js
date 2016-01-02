@@ -12,17 +12,17 @@ module.exports = {
     filename: '/js/app.js'
   },
   resolve: {
-    moduleDirectories: [__dirname + '/web/static/js'],
+    moduleDirectories: [__dirname + '/web/static/js/src'],
     alias: {
       phoenix: __dirname + '/deps/phoenix/web/static/js/phoenix.js',
-      containers: __dirname + '/web/static/js/containers',
-      routes: __dirname + '/web/static/js/containers',
-      projects: __dirname + '/web/static/js/projects',
+      containers: __dirname + '/web/static/js/src/containers',
+      routes: __dirname + '/web/static/js/src/routes',
+      projects: __dirname + '/web/static/js/src/projects',
       styles: __dirname + '/web/static/css',
-      components: __dirname + '/web/static/js/components',
-      layouts: __dirname + '/web/static/js/layouts',
-      views: __dirname + '/web/static/js/views',
-      actions: __dirname + '/web/static/js/redux/modules'
+      components: __dirname + '/web/static/js/src/components',
+      layouts: __dirname + '/web/static/js/src/layouts',
+      views: __dirname + '/web/static/js/src/views',
+      actions: __dirname + '/web/static/js/src/redux/modules'
     }
   },
   module: {

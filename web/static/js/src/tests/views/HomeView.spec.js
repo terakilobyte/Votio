@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import TestUtils from 'react-addons-test-utils';
-import { bindActionCreators } from 'redux';
 import { HomeView } from 'views/HomeView';
 
 function shallowRender (component) {
@@ -10,40 +9,37 @@ function shallowRender (component) {
   return renderer.getRenderOutput();
 }
 
-function renderWithProps (props = {}) {
-  return TestUtils.renderIntoDocument(<HomeView {...props} />);
-}
+// function renderWithProps (props = {}) {
+//   return TestUtils.renderIntoDocument(<HomeView {...props} />);
+// }
 
-function shallowRenderWithProps (props = {}) {
-  return shallowRender(<HomeView {...props} />);
-}
+// function shallowRenderWithProps (props = {}) {
+//   return shallowRender(<HomeView {...props} />);
+// }
+
+// beforeEach(function () {
+//   _spies = {};
+//   _props = {
+//     counter: 0,
+//       ...bindActionCreators({
+//         doubleAsync: (_spies.doubleAsync = sinon.spy()),
+//         increment: (_spies.increment = sinon.spy())
+//       }, _spies.dispatch = sinon.spy())
+//   };
+
+//   _component = shallowRenderWithProps(_props);
+// });
+
 
 describe('(View) Home', function () {
-  let _component, _rendered, _props, _spies;
+  let _component;
 
   beforeEach(function () {
-    _spies = {};
-    _props = {
-      counter: 0,
-      ...bindActionCreators({
-        doubleAsync: (_spies.doubleAsync = sinon.spy()),
-        increment: (_spies.increment = sinon.spy())
-      }, _spies.dispatch = sinon.spy())
-    };
-
-    _component = shallowRenderWithProps(_props);
-    _rendered = renderWithProps(_props);
+    _component = shallowRender(<HomeView />);
   });
 
   it('Should render as a <div>.', function () {
     expect(_component.type).to.equal('div');
-  });
-
-  it('Should include an <h2> with welcome text.', function () {
-    const h2 = TestUtils.findRenderedDOMComponentWithTag(_rendered, 'h2');
-
-    expect(h2).to.exist;
-    expect(h2.textContent).to.match(/Welcome to Vot.io, a realtime voting service!/);
   });
 
   // it('Should render with an <h2> that includes Sample Counter text.', function () {

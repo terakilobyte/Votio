@@ -14,9 +14,9 @@
 import 'phoenix';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {syncReduxAndRouter} from 'redux-simple-router';
-import routes from './routes';
-import Root from './containers/Root';
-import configureStore from './redux/configureStore';
+import routes from 'routes';
+import Root from 'containers/Root';
+import configureStore from './src/redux/configureStore';
 
 const history = createBrowserHistory();
 const store = configureStore(window.__INITIAL_STATE__);
