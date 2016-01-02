@@ -1,15 +1,16 @@
 import { argv } from 'yargs';
 import webpackConfig from './webpack.config';
+import config from './jsconfig/config';
 
 const debug = require('debug')('app:karma');
 debug('Create configuration.');
 
 const karmaConfig = {
-  basePath: '../', // project root in relation to bin/karma.js
+  basePath: './', // project root in relation to bin/karma.js
   files: [
-    './votio/node_modules/phantomjs-polyfill/bind-polyfill.js',
+    './node_modules/phantomjs-polyfill/bind-polyfill.js',
     {
-      pattern: `./votio/web/static/js/tests/**/*.js`,
+      pattern: `${config.dir_test}**/*.js`,
       watched: false,
       served: true,
       included: true
@@ -18,7 +19,7 @@ const karmaConfig = {
   singleRun: !argv.watch,
   frameworks: ['mocha', 'chai-sinon', 'chai-as-promised', 'chai'],
   preprocessors: {
-    [`votio/web/static/js/tests/**/*.js`]: ['webpack']
+    [`${config.dir_test}**/*.js`]: ['webpack']
   },
   reporters: ['spec'],
   browsers: ['PhantomJS'],
@@ -34,16 +35,19 @@ const karmaConfig = {
   },
   webpackMiddleware: {
     noInfo: true
+  },
+  coverageReporter: {
+    reporters: config.coverage_reporters
   }
 };
 
-// if (config.coverage_enabled) {
-//   karmaConfig.reporters.push('coverage');
-//   karmaConfig.webpack.module.preLoaders = [{
-//     test: /\.(js|jsx)$/,
-//     include: new RegExp(config.dir_client),
-//     loader: 'isparta'
-//   }];
-// }
+if (config.coverage_enabled) {
+  karmaConfig.reporters.push('coverage');
+  karmaConfig.webpack.module.preLoaders = [{
+    test: /\.(js|jsx)$/,
+    include: new RegExp(config.dir_client),
+    loader: 'isparta'
+  }];
+}
 
 export default (cfg) => cfg.set(karmaConfig);
