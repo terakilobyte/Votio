@@ -1,5 +1,6 @@
 import thunk from 'redux-thunk';
 import rootReducer from './modules';
+import {stateHistoryTracker as trackHistory } from 'redux-state-history/lib/stateHistory';
 import {
   applyMiddleware,
   compose,
@@ -12,26 +13,18 @@ export default function configureStore (initialState) {
 
   const middleware = applyMiddleware(thunk);
 
-  createStoreWithMiddleware = compose(middleware);
-
   if (window.devToolsExtension) {
     createStoreWithMiddleware = compose(
       middleware,
+      trackHistory(),
       window.devToolsExtension()
     );
   } else {
-    createStoreWithMiddleware = compose(middleware);
+    createStoreWithMiddleware = compose(middleware, trackHistory());
   }
 
   const store = createStoreWithMiddleware(createStore)(
     rootReducer, initialState
   );
-  if (module.hot) {
-    module.hot.accept('./modules', () => {
-      const nextRootReducer = require('./modules');
-
-      store.replaceReducer(nextRootReducer);
-    });
-  }
   return store;
 }
