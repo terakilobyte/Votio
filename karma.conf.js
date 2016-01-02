@@ -22,7 +22,7 @@ const karmaConfig = {
     [`${config.dir_test}**/*.js`]: ['webpack']
   },
   reporters: ['spec'],
-  browsers: ['PhantomJS'],
+  browsers: ['PhantomJS', 'Chrome', 'Firefox'],
   webpack: {
     devtool: 'inline-source-map',
     resolve: webpackConfig.resolve,
