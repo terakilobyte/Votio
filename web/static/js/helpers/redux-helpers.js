@@ -1,7 +1,7 @@
 import thunk from 'redux-thunk';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {syncReduxAndRouter} from 'redux-simple-router';
-import rootReducer from '../src/redux/modules';
+import rootReducer from '../src/redux/rootReducer';
 import {
   applyMiddleware,
   compose,
