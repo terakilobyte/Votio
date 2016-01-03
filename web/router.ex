@@ -1,5 +1,6 @@
 defmodule Votio.Router do
   use Votio.Web, :router
+  require Ueberauth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -19,6 +20,14 @@ defmodule Votio.Router do
     get "/test", TestController, :index
   end
 
+  scope "/auth", Votio do
+    pipe_through [:browser]
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    post "/:provider/callback", AuthController, :callback
+    delete "/logout", AuthController, :delete
+  end
 
   scope "/", Votio do
     pipe_through :browser # Use the default browser stack
