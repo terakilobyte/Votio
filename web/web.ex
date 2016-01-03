@@ -29,12 +29,14 @@ defmodule Votio.Web do
   def controller do
     quote do
       use Phoenix.Controller
+      use Guardian.Phoenix.Controller
 
       alias Votio.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Votio.Router.Helpers
+      import Votio.Controller.Helpers
       import Votio.Gettext
     end
   end
@@ -52,6 +54,7 @@ defmodule Votio.Web do
       import Votio.Router.Helpers
       import Votio.ErrorHelpers
       import Votio.Gettext
+      import Votio.ViewHelpers
     end
   end
 

@@ -17,12 +17,12 @@ const karmaConfig = {
     }
   ],
   singleRun: !argv.watch,
-  frameworks: ['mocha', 'chai-sinon', 'chai-as-promised', 'chai'],
+  frameworks: ['mocha', 'chai', 'jsx-chai'],
   preprocessors: {
     [`${config.dir_test}**/*.js`]: ['webpack']
   },
   reporters: ['spec'],
-  browsers: ['PhantomJS', 'Chrome', 'Firefox'],
+  browsers: ['PhantomJS'],
   webpack: {
     devtool: 'inline-source-map',
     resolve: webpackConfig.resolve,

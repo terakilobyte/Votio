@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "test": "mix test && node ./node_modules/karma/bin/karma start ./karma.js",
+    "test": "node ./node_modules/karma/bin/karma start ./karma.js",
     "test:watch": "npm test -- --watch"
   },
   "repository": {},
   "dependencies": {
     "bootstrap-sass": "^3.3.6",
+    "chai-jsx": "^1.0.1",
     "copy-webpack-plugin": "^0.3.3",
     "debug": "^2.2.0",
     "dotenv": "^1.2.0",
@@ -13,6 +14,7 @@
     "jsx-chai": "^2.0.0",
     "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.7",
+    "karma-jsx-chai": "github:terakilobyte/karma-jsx-chai",
     "karma-safari-launcher": "^0.1.1",
     "phantomjs-polyfill": "0.0.1",
     "react": "^0.14.0",

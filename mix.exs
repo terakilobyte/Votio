@@ -27,8 +27,8 @@ defmodule Votio.Mixfile do
                     :postgrex,
                     :oauth,
                     :ueberauth_github,
-                    :ueberauth_twitter,
-                    :ueberauth_identity
+                    :ueberauth_identity,
+                    :comeonin
                    ]]
   end
 
@@ -49,8 +49,10 @@ defmodule Votio.Mixfile do
      {:oauth, github: "tim/erlang-oauth"},
      {:ueberauth, "~> 0.2"},
      {:ueberauth_github, "~> 0.2"},
-     {:ueberauth_twitter, "~> 0.2"},
      {:ueberauth_identity, "~> 0.2"},
+     {:comeonin, "~> 1.6"},
+     {:guardian_db, "~> 0.4"},
+     {:guardian, "~> 0.9"},
      {:cowboy, "~> 1.0"}]
   end
 

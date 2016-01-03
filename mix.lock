@@ -1,4 +1,6 @@
-%{"certifi": {:hex, :certifi, "0.3.0"},
+%{"base64url": {:hex, :base64url, "0.0.1"},
+  "certifi": {:hex, :certifi, "0.3.0"},
+  "comeonin": {:hex, :comeonin, "1.6.0"},
   "connection": {:hex, :connection, "1.0.2"},
   "cowboy": {:hex, :cowboy, "1.0.4"},
   "cowlib": {:hex, :cowlib, "1.0.2"},
@@ -6,9 +8,12 @@
   "ecto": {:hex, :ecto, "1.1.1"},
   "fs": {:hex, :fs, "0.9.2"},
   "gettext": {:hex, :gettext, "0.9.0"},
+  "guardian": {:hex, :guardian, "0.9.0"},
+  "guardian_db": {:hex, :guardian_db, "0.4.0"},
   "hackney": {:hex, :hackney, "1.4.7"},
   "httpoison": {:hex, :httpoison, "0.8.0"},
   "idna": {:hex, :idna, "1.0.2"},
+  "jose": {:hex, :jose, "1.4.2"},
   "mimerl": {:hex, :mimerl, "1.0.2"},
   "mimetype_parser": {:hex, :mimetype_parser, "0.1.0"},
   "oauth": {:git, "https://github.com/tim/erlang-oauth.git", "cd31addc828179983564fd57738f1680a4a4d1ff", []},
@@ -26,4 +31,5 @@
   "ueberauth": {:hex, :ueberauth, "0.2.0"},
   "ueberauth_github": {:hex, :ueberauth_github, "0.2.0"},
   "ueberauth_identity": {:hex, :ueberauth_identity, "0.2.1"},
-  "ueberauth_twitter": {:hex, :ueberauth_twitter, "0.2.2"}}
+  "ueberauth_twitter": {:hex, :ueberauth_twitter, "0.2.2"},
+  "uuid": {:hex, :uuid, "1.1.2"}}

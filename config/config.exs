@@ -28,6 +28,27 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
+
+  # Configure guardian
+config :guardian, Guardian,
+  issuer: "Votio.#{Mix.env}",
+  ttl: {30, :days},
+  verify_issuer: true,
+  serializer: Votio.GuardianSerializer,
+  secret_key: to_string(Mix.env),
+  hooks: GuardianDb,
+  permissions: %{
+    default: [
+      :read_profile,
+      :write_profile,
+      :read_token,
+      :revoke_token,
+    ],
+  }
+
+config :guardian_db, GuardianDb,
+  repo: Votio.Repo
+
 # Configure Ueberauth
 config :ueberauth, Ueberauth,
   providers: [
@@ -43,7 +64,3 @@ config :ueberauth, Ueberauth,
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID"),
   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
-
-config :ueberauth, Ueberauth.Strategy.Twitter.OAuth,
-  consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
-  consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET")
