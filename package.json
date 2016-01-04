@@ -5,6 +5,7 @@
   },
   "repository": {},
   "dependencies": {
+    "axios": "^0.8.1",
     "bootstrap-sass": "^3.3.6",
     "chai-jsx": "^1.0.1",
     "copy-webpack-plugin": "^0.3.3",

@@ -5,12 +5,8 @@ defmodule Votio.TestView do
     %{message: message}
   end
 
-  def render("error.json", %{test: test}) do
-    %{error: test}
-  end
-
-  def render("login.json", %{data: data}) do
-    %{data: data}
+  def render("error.json", %{error: error}) do
+    %{error: error}
   end
 
 end

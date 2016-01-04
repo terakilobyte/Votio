@@ -1,24 +1,46 @@
 import { Link } from 'react-router';
-import request from 'superagent';
+import axios from 'axios';
 
 
 export default class Header extends React.Component {
 
   constructor (props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickAuth = this.handleClickAuth.bind(this);
+    this.handleClickAPI = this.handleClickAPI.bind(this);
+    this.request = axios.create({
+      baseURL: 'http://lvh.me:4000',
+      timeout: 1000
+    });
   }
 
-  handleClick (e) {
+  handleClickAPI (e) {
     e.preventDefault();
-    request
+    this.request
+      .get('/api/test', {
+        headers: {'Authorization': 'Bearer ' + window.localStorage.jwt}
+      })
+      .then(res => {
+        console.log(res.data.message);
+      })
+      .catch(res => {
+        console.error(res.data.error);
+      });
+  }
+
+  handleClickAuth (e) {
+    e.preventDefault();
+    this.request
       .get('/credentials')
-      .end((err, res) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log('data', JSON.parse(res.text));
+      .then(res => {
+        console.log(res);
+        const creds = res.data;
+        window.localStorage.user = creds.user;
+        window.localStorage.jwt = creds.jwt;
+        console.log(window.localStorage.user, window.localStorage.jwt);
+      })
+      .catch(res => {
+        console.error(res.data.error);
       });
   }
 
@@ -31,8 +53,14 @@ export default class Header extends React.Component {
               <li><Link to='/sign-in'>Sign In | Sign Up</Link></li>
               <li>
                 <div className='btn btn-danger'
-                     onClick={this.handleClick} >
+                     onClick={this.handleClickAuth} >
                   Test auth
+                </div>
+              </li>
+              <li>
+                <div className='btn btn-success'
+                     onClick={this.handleClickAPI} >
+                  Test API
                 </div>
               </li>
             </ul>

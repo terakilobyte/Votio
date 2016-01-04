@@ -4,7 +4,7 @@ defmodule Votio.TestController do
 
   # TODO debug this
 
-  def index(conn, _params) do
+  def index(conn, _params, current_user, {:ok, claims}) do
     user = Guardian.Plug.current_resource(conn)
     IO.inspect user
     conn
@@ -14,7 +14,7 @@ defmodule Votio.TestController do
   def unauthenticated(conn, _params) do
     conn
     |> put_status(401)
-    |> render "error.json", %{message: "unauthorized"}
+    |> render "error.json", %{error: "unauthorized"}
   end
 
 end
