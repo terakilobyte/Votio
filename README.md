@@ -1,5 +1,8 @@
 # Votio
 
+# Current branch of work is [authentication](https://github.com/terakilobyte/votio/tree/authentication).
+### Heavily broken as I'm learning. Initial design decisions may have to be relooked! Lessons being learned.
+
 To start the application:
 
   1. Install dependencies with `mix deps.get`
