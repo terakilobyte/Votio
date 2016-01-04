@@ -28,6 +28,7 @@
     "redux-state-history": "^0.1.4",
     "redux-thunk": "^1.0.0",
     "spec": "^1.0.1",
+    "superagent": "^1.6.1",
     "webpack": "^1.12.9",
     "yargs": "^3.18.0"
   },

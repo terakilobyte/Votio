@@ -43,9 +43,11 @@ defmodule Votio.Router do
     delete "/logout", AuthController, :delete
   end
 
+
   scope "/", Votio do
     pipe_through [:browser, :browser_auth] # Use the default browser stack
 
+    get "/credentials", AuthController, :credentials
     get "/*any", PageController, :index
   end
 

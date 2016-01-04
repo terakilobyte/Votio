@@ -9,6 +9,8 @@ defmodule Votio.AuthController do
 
   plug Ueberauth
 
+  plug Guardian.Plug.EnsureAuthenticated, [handler: __MODULE__] when action in [:credentials]
+
   alias Votio.UserFromAuth
 
   def login(conn, _params, current_user, _claims) do
@@ -27,30 +29,13 @@ defmodule Votio.AuthController do
         conn
         |> put_flash(:info, "Signed in as #{user.name}")
         |> Guardian.Plug.sign_in(user, :token, perms: %{default: Guardian.Permissions.max})
-        |> api_signin_on_success(user)
+        |> redirect(to: "/")
+
       {:error, _reason} ->
         conn
         |> put_flash(:error, "Could not authenticate")
         |> redirect(to: "/")
         # |> render("login.html", current_user: current_user, current_auths: auths(current_user))
-    end
-  end
-
-  def api_signin_on_success(conn, user) do
-    new_conn = Guardian.Plug.api_sign_in(conn, user)
-    jwt = Guardian.Plug.current_token(new_conn)
-    claims = Guardian.Plug.claims(new_conn)
-    case claims do
-      {:ok, claim} ->
-        exp = Map.get(claim, "exp")
-        new_conn
-        |> put_resp_header("authorization", "Bearer #{jwt}")
-        |> put_resp_header("x-expires", "#{exp}")
-        |> redirect(to: "/")
-      _ ->
-        conn
-        |> put_flash(:error, "Could not validate")
-        |> redirect(to: "/")
     end
   end
 
@@ -69,6 +54,18 @@ defmodule Votio.AuthController do
       |> put_flash(:info, "Not logged in")
       |> redirect(to: "/")
     end
+  end
+
+  def credentials(conn, _, nil, _) do
+    conn
+    |> put_status(401)
+    |> render "failed_credentials.json", error: "not_authenticated"
+  end
+
+  def credentials(conn, _params, current_user, {:ok, claims}) do
+    token = Guardian.Plug.current_token(conn)
+    user = %{name: current_user.name, email: current_user.email}
+    render conn, "credentials.json", %{ user: user, exp: claims["exp"], jwt: token }
   end
 
   defp auths(nil), do: []
