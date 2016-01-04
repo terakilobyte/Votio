@@ -2,7 +2,7 @@ defmodule Votio.TestController do
   use Votio.Web, :controller
   plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
 
-  // TODO debug this
+  # TODO debug this
 
   def index(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
