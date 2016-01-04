@@ -24,6 +24,13 @@ defmodule Votio.AuthController do
   def callback(%Plug.Conn{assigns: %{ueberauth_auth: auth}} = conn, _params, current_user, _claims) do
     case UserFromAuth.get_or_insert(auth, current_user, Repo) do
       {:ok, user} ->
+        # new_conn = Guardian.Plug.api_sign_in(conn, user)
+        # jwt = Guardian.Plug.current_token(new_conn)
+        # claims = Guardian.Plug.claims(new_conn)
+        # exp = Map.get(claims, "exp")
+        # new_conn
+        # |> put_resp_header("authorization", "Bearer #{jwt}")
+        # |> put_resp_header("x-explires", exp)
         conn
         |> put_flash(:info, "Signed in as #{user.name}")
         |> Guardian.Plug.sign_in(user, :token, perms: %{default: Guardian.Permissions.max})
