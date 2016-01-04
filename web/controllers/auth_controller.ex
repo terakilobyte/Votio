@@ -24,21 +24,33 @@ defmodule Votio.AuthController do
   def callback(%Plug.Conn{assigns: %{ueberauth_auth: auth}} = conn, _params, current_user, _claims) do
     case UserFromAuth.get_or_insert(auth, current_user, Repo) do
       {:ok, user} ->
-        # new_conn = Guardian.Plug.api_sign_in(conn, user)
-        # jwt = Guardian.Plug.current_token(new_conn)
-        # claims = Guardian.Plug.claims(new_conn)
-        # exp = Map.get(claims, "exp")
-        # new_conn
-        # |> put_resp_header("authorization", "Bearer #{jwt}")
-        # |> put_resp_header("x-explires", exp)
         conn
         |> put_flash(:info, "Signed in as #{user.name}")
         |> Guardian.Plug.sign_in(user, :token, perms: %{default: Guardian.Permissions.max})
-        |> redirect(to: "/")
+        |> api_signin_on_success(user)
       {:error, _reason} ->
         conn
         |> put_flash(:error, "Could not authenticate")
-        |> render("login.html", current_user: current_user, current_auths: auths(current_user))
+        |> redirect(to: "/")
+        # |> render("login.html", current_user: current_user, current_auths: auths(current_user))
+    end
+  end
+
+  def api_signin_on_success(conn, user) do
+    new_conn = Guardian.Plug.api_sign_in(conn, user)
+    jwt = Guardian.Plug.current_token(new_conn)
+    claims = Guardian.Plug.claims(new_conn)
+    case claims do
+      {:ok, claim} ->
+        exp = Map.get(claim, "exp")
+        new_conn
+        |> put_resp_header("authorization", "Bearer #{jwt}")
+        |> put_resp_header("x-expires", "#{exp}")
+        |> redirect(to: "/")
+      _ ->
+        conn
+        |> put_flash(:error, "Could not validate")
+        |> redirect(to: "/")
     end
   end
 
