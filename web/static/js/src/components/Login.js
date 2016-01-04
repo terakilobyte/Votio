@@ -7,13 +7,11 @@ export default class Login extends React.Component {
     return (
       <div className='container-fluid'>
         <div className='text-center'>
-          <div className='btn btn-primary'>
-            {auth} with Github
-          </div>
-          <hr />
-          <div className='btn btn-success'>
-            {auth} with your email address
-          </div>
+          <a href='auth/github'>
+            <div className='btn btn-primary'>
+              {auth} with Github
+            </div>
+          </a>
         </div>
       </div>
     );
