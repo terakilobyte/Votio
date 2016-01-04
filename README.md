@@ -1,13 +1,13 @@
 # Votio
 
-# Current branch of work is [authentication](https://github.com/terakilobyte/votio/tree/authentication).
-### Heavily broken as I'm learning. Initial design decisions may have to be relooked! Lessons being learned.
+# Authentication is now handled on the server, and testable on the client!.
 
 To start the application:
 
   1. Install dependencies with `mix deps.get`
-  2. Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  3. Start Phoenix endpoint with `mix phoenix.server`
+  2. Install NPM dependencies with `npm install`
+  3. Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  4. Start Phoenix endpoint with `mix phoenix.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
