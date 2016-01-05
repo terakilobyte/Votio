@@ -43,8 +43,8 @@ describe('(Component) Login', () => {
     expect(_rendered.type).to.equal('div');
   });
 
-  it('Should have 3 login buttons.', () => {
+  it('Should have 1 login buttons.', () => {
     const buttons = TestUtils.scryRenderedDOMComponentsWithClass(_component, 'btn');
-    expect(buttons.length).to.equal(3);
+    expect(buttons.length).to.equal(1);
   });
 });

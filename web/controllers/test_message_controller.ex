@@ -1,13 +1,14 @@
-defmodule Votio.TestController do
+defmodule Votio.TestMessageController do
   use Votio.Web, :controller
-  plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
 
-  # TODO debug this
+  alias Votio.TestMessage
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
 
   def index(conn, _params, current_user, {:ok, claims}) do
     user = Guardian.Plug.current_resource(conn)
     conn
-    |> render "index.json", %{message: "this is a test and you should only see it if you are logged in via jwt"}
+    |> render("test_message.json", %{test_message: "Yo dawg"})
   end
 
   def unauthenticated(conn, _params) do

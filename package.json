@@ -13,6 +13,7 @@
     "dotenv": "^1.2.0",
     "history": "^1.17.0",
     "jsx-chai": "^2.0.0",
+    "karma-chai-equal-jsx": "^1.0.11",
     "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.7",
     "karma-jsx-chai": "github:terakilobyte/karma-jsx-chai",

@@ -32,6 +32,7 @@ defmodule Votio.Router do
     pipe_through [:api, :api_auth]
 
     get "/test", TestController, :index
+    get "/testmessage", TestMessageController, :index
   end
 
   scope "/auth", Votio do
