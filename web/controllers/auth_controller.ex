@@ -29,12 +29,12 @@ defmodule Votio.AuthController do
         conn
         |> put_flash(:info, "Signed in as #{user.name}")
         |> Guardian.Plug.sign_in(user, :token, perms: %{default: Guardian.Permissions.max})
-        |> redirect(to: "/")
+        |> redirect(to: "/fetch-user")
 
       {:error, _reason} ->
         conn
         |> put_flash(:error, "Could not authenticate")
-        |> redirect(to: "/")
+        |> redirect(to: "/login-error")
         # |> render("login.html", current_user: current_user, current_auths: auths(current_user))
     end
   end

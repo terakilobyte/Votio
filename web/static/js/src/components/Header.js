@@ -66,27 +66,6 @@ export default class Header extends React.Component {
           <nav role='navigation'>
             <ul className='nav nav-pills pull-right'>
               <li><Link to='/sign-in'>Sign In | Sign Up</Link></li>
-              <li>
-                <div id='test-auth'
-                     className='btn btn-danger'
-                     onClick={this.handleClickAuth} >
-                  Test auth
-                </div>
-              </li>
-              <li>
-                <div id='test-api'
-                     className='btn btn-success'
-                     onClick={this.handleClickAPI} >
-                  Test API
-                </div>
-              </li>
-              <li>
-                <div id='test-api'
-                     className='btn btn-success'
-                     onClick={this.handleClickTest} >
-                  Test TestMessage
-                </div>
-              </li>
             </ul>
           </nav>
           <span className='logo'></span>
@@ -95,3 +74,24 @@ export default class Header extends React.Component {
     );
   }
 }
+//   <li>
+//   <div id='test-auth'
+// className='btn btn-danger'
+// onClick={this.handleClickAuth} >
+//   Test auth
+// </div>
+//   </li>
+//   <li>
+//   <div id='test-api'
+// className='btn btn-success'
+// onClick={this.handleClickAPI} >
+//   Test API
+// </div>
+//   </li>
+//   <li>
+//   <div id='test-api'
+// className='btn btn-success'
+// onClick={this.handleClickTest} >
+//   Test TestMessage
+// </div>
+//   </li>
