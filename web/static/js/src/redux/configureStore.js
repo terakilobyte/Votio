@@ -13,15 +13,15 @@ export default function configureStore (initialState) {
 
   const middleware = applyMiddleware(thunk);
 
-  if (window.devToolsExtension) {
-    createStoreWithMiddleware = compose(
-      middleware,
-      trackHistory(),
-      window.devToolsExtension()
-    );
-  } else {
+  // if (window.devToolsExtension) {
+  //   createStoreWithMiddleware = compose(
+  //     middleware,
+  //     trackHistory(),
+  //     window.devToolsExtension()
+  //   );
+  // } else {
     createStoreWithMiddleware = compose(middleware, trackHistory());
-  }
+  // }
 
   const store = createStoreWithMiddleware(createStore)(
     rootReducer, initialState

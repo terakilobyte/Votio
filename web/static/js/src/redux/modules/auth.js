@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import request from 'axios';
+import Cookies from 'js-cookie';
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -10,52 +11,66 @@ export const LOGOUT = 'LOGOUT';
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const increment = createAction(COUNTER_INCREMENT, (value = 1) => value);
-export const jwtRequest = (dispatch) => {
+export const jwtSuccess = createAction(JWT_SUCCESS, (payload) => payload);
+export const jwtFailure = createAction(JWT_FAILURE, (payload) => payload);
+export const jwtRequest = (dispatch, history) => {
   return (
     request
       .get('/credentials')
       .then((response) => {
         const user = response.data.user;
         const jwt = response.data.jwt;
+        // TODO get rid of this setTimeout, only for effect on local dev
+        setTimeout(() => {
+          history.push('/');
+        }, 1000);
         return dispatch(jwtSuccess({user, jwt}));
       })
       .catch((response) => {
-        return dispatch(jwtFailure({error: response.data.error}));
+        return dispatch(jwtFailure({error: response.data.error, authFailed: true}));
       })
   );
 };
 
-export const jwtSuccess = createAction(JWT_SUCCESS, (payload) => payload);
-export const jwtFailure = createAction(JWT_FAILURE, (payload) => payload);
+export const getJWTToken = () => JSON.parse(Cookies.get('votio').jwt);
 
-
-// This is a thunk, meaning it is a function that immediately
-// returns a function for lazy evaluation. It is incredibly useful for
-// creating async actions, especially when combined with redux-thunk!
-// NOTE: This is solely for demonstration purposes. In a real application,
-// you'd probably want to dispatch an action of COUNTER_DOUBLE and let the
-// reducer take care of this logic.
-export const doubleAsync = () => {
-  return (dispatch, getState) => {
-    setTimeout(() => {
-      dispatch(increment(getState().counter));
-    }, 1000);
+export const logout = createAction(LOGOUT, () => {
+  return {
+    user: null,
+    authenticated: null,
+    error: null,
+    authFailed: false
   };
-};
+});
 
 export const actions = {
-  increment,
-  doubleAsync
+  jwtSuccess,
+  jwtFailure,
+  logout
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  jwt: null,
-  user: null
+  user: Cookies.get('votio') && JSON.parse(Cookies.get('votio')).user || null,
+  authenticated:
+  Cookies.get('votio') && JSON.parse(Cookies.get('votio')).jwt
+    ? true
+    : false,
+  error: null,
+  authFailed: false
 };
 export default handleActions({
-  [COUNTER_INCREMENT]: (state, { payload }) => state + payload
-}, 1);
+  [JWT_SUCCESS]: (state, { payload }) => {
+    Cookies.set('votio', payload, {expires: 30});
+    return Object.assign({}, state, {user: payload.user, authenticated: true});
+  },
+  [JWT_FAILURE]: (state, { payload }) => {
+    return Object.assign({}, state, payload);
+  },
+  [LOGOUT]: (state, { payload }) => {
+    Cookies.remove('votio');
+    return Object.assign({}, state, payload);
+  }
+}, initialState);
