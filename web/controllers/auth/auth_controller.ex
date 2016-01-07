@@ -13,16 +13,6 @@ defmodule Votio.AuthController do
 
   alias Votio.UserFromAuth
 
-  # def login(conn, _params, current_user, _claims) do
-  #   render conn, "login.html", current_user: current_user, current_auths: auths(current_user)
-  # end
-
-  # def callback(%Plug.Conn{assigns: %{ueberauth_failure: fails}} = conn, _params, current_user, _claims) do
-  #   conn
-  #   |> put_flash(:error, hd(fails.errors).message)
-  #   |> render("login.html", current_user: current_user, current_auths: auths(current_user))
-  # end
-
   def callback(%Plug.Conn{assigns: %{ueberauth_auth: auth}} = conn, _params, current_user, _claims) do
     case UserFromAuth.get_or_insert(auth, current_user, Repo) do
       {:ok, user} ->
@@ -33,9 +23,7 @@ defmodule Votio.AuthController do
 
       {:error, _reason} ->
         conn
-        |> put_flash(:error, "Could not authenticate")
         |> redirect(to: "/login-error")
-        # |> render("login.html", current_user: current_user, current_auths: auths(current_user))
     end
   end
 

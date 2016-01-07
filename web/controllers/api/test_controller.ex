@@ -15,5 +15,4 @@ defmodule Votio.TestController do
     |> put_status(401)
     |> render "error.json", %{error: "unauthorized"}
   end
-
 end
