@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import request from 'axios';
 import Cookies from 'js-cookie';
+import {alertSuccess, alertError } from './alerts';
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -20,14 +21,14 @@ export const jwtRequest = (dispatch, history) => {
       .then((response) => {
         const user = response.data.user;
         const jwt = response.data.jwt;
-        // TODO get rid of this setTimeout, only for effect on local dev
-        setTimeout(() => {
-          history.push('/');
-        }, 1000);
+        history.push('/');
+        dispatch(alertSuccess({success: 'Successfully signed in.'}));
         return dispatch(jwtSuccess({user, jwt}));
       })
       .catch((response) => {
-        return dispatch(jwtFailure({error: response.data.error, authFailed: true}));
+        history.push('/');
+        dispatch(alertError({error: response.data.error}));
+        return dispatch(jwtFailure({authFailed: true}));
       })
   );
 };
