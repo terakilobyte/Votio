@@ -12,6 +12,7 @@
     "debug": "^2.2.0",
     "dotenv": "^1.2.0",
     "history": "^1.17.0",
+    "js-cookie": "^2.1.0",
     "jsx-chai": "^2.0.0",
     "karma-chai-equal-jsx": "^1.0.11",
     "karma-chrome-launcher": "^0.2.2",
