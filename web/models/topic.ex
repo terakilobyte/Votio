@@ -32,4 +32,17 @@ defmodule Votio.Topic do
     end)
     |> validate_length(:title, min: 5, message: "Your title must be at least 5 characters")
   end
+
+  def vote_changeset(model, params \\ :invalid) do
+    model
+    |> changeset(params)
+    |> cast(params, ~w(voted_by))
+    |> validate_change(:voted_by, fn(:voted_by, list) ->
+      cond do
+        list == Enum.uniq(list) -> []
+        true -> [voted_by: "Already voted"]
+      end
+    end)
+  end
+
 end
