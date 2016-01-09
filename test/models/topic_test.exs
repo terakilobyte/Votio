@@ -3,7 +3,7 @@ defmodule Votio.TopicTest do
 
   alias Votio.Topic
 
-  @valid_attrs %{categories: %{}, title: "some content"}
+  @valid_attrs %{categories: %{option1: 0, option2: 0}, title: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
@@ -15,4 +15,5 @@ defmodule Votio.TopicTest do
     changeset = Topic.changeset(%Topic{}, @invalid_attrs)
     refute changeset.valid?
   end
+
 end
