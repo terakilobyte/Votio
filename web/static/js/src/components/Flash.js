@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class Flash extends React.Component {
+export class Flash extends React.Component {
 
   static propTypes = {
     success: React.PropTypes.string,

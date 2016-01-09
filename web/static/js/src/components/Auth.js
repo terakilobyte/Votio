@@ -6,7 +6,7 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-class Auth extends React.Component {
+export class Auth extends React.Component {
 
   static propTypes = {
     history: React.PropTypes.object.isRequired,

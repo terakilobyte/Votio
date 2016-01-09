@@ -22,6 +22,14 @@ defmodule Votio.Topic do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> unique_constraint(:title)
+    # Thanks Joef!
+    |> validate_change(:categories, fn(:categories, categories) ->
+      cond do
+        map_size(categories) < 2 -> [categories: "Must have at least two choices."]
+        true -> []
+      end
+    end)
+    |> validate_length(:title, min: 5, message: "Your title must be at least 5 characters")
   end
-
 end
