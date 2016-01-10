@@ -1,7 +1,6 @@
 import { Link } from 'react-router';
 import axios from 'axios';
 
-
 export default class Header extends React.Component {
 
   constructor (props) {
@@ -11,21 +10,39 @@ export default class Header extends React.Component {
     this.handleClickTest = this.handleClickTest.bind(this);
     this.request = axios.create({
       baseURL: 'http://lvh.me:4000',
+      headers: {'Authorization': 'Bearer ' + window.localStorage.jwt},
       timeout: 1000
     });
+    this.handleClickPostAPI = this.handleClickPostAPI.bind(this);
   }
 
   handleClickAPI (e) {
     e.preventDefault();
     this.request
-      .get('/api/test', {
-        headers: {'Authorization': 'Bearer ' + window.localStorage.jwt}
+      .get('/api/topics', {
       })
       .then(res => {
-        console.log(res.data.message);
+        console.log(res.data);
       })
       .catch(res => {
-        console.error(res.data.error);
+        console.error(res.data);
+      });
+  }
+
+  handleClickPostAPI (e) {
+    e.preventDefault();
+    this.request
+      .post('/api/topics/new', {
+        'topic': {
+          'title': 'This is a test',
+          'categories': {'yes': 0, 'no' : 0}
+        }
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(res => {
+        console.log(res);
       });
   }
 
@@ -66,6 +83,34 @@ export default class Header extends React.Component {
           <nav role='navigation'>
             <ul className='nav nav-pills pull-right'>
               <li><Link to='/sign-in'>Sign In | Sign Up</Link></li>
+              <li>
+                <div id='test-auth'
+                     className='btn btn-danger'
+                     onClick={this.handleClickAuth} >
+                  Test auth
+                </div>
+              </li>
+              <li>
+                <div id='test-api'
+                     className='btn btn-success'
+                     onClick={this.handleClickAPI} >
+                  Test API
+                </div>
+              </li>
+              <li>
+                <div id='test-api'
+                     className='btn btn-success'
+                     onClick={this.handleClickTest} >
+                  Test TestMessage
+                </div>
+              </li>
+              <li>
+                <div id='test-api'
+                     className='btn btn-success'
+                     onClick={this.handleClickPostAPI} >
+                  Test Post
+                </div>
+              </li>
             </ul>
           </nav>
           <span className='logo'></span>
@@ -74,24 +119,3 @@ export default class Header extends React.Component {
     );
   }
 }
-//   <li>
-//   <div id='test-auth'
-// className='btn btn-danger'
-// onClick={this.handleClickAuth} >
-//   Test auth
-// </div>
-//   </li>
-//   <li>
-//   <div id='test-api'
-// className='btn btn-success'
-// onClick={this.handleClickAPI} >
-//   Test API
-// </div>
-//   </li>
-//   <li>
-//   <div id='test-api'
-// className='btn btn-success'
-// onClick={this.handleClickTest} >
-//   Test TestMessage
-// </div>
-//   </li>

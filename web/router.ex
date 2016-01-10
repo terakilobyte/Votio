@@ -33,6 +33,8 @@ defmodule Votio.Router do
 
     get "/test", TestController, :index
     get "/testmessage", TestMessageController, :index
+    post "/topics/new", TopicController, :create
+    resources "/topics", TopicController, except: [:new, :edit]
   end
 
   scope "/auth", Votio do

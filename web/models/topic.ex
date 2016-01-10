@@ -36,7 +36,7 @@ defmodule Votio.Topic do
   def vote_changeset(model, params \\ :invalid) do
     model
     |> changeset(params)
-    |> cast(params, ~w(voted_by))
+    |> cast(params, ~w(voted_by), @optional_fields)
     |> validate_change(:voted_by, fn(:voted_by, list) ->
       cond do
         list == Enum.uniq(list) -> []

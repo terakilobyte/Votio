@@ -18,7 +18,8 @@ defmodule Votio.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Votio, []},
-     applications: [:phoenix,
+     applications: [:ex_machina,
+                    :phoenix,
                     :phoenix_html,
                     :cowboy,
                     :logger,
@@ -53,6 +54,7 @@ defmodule Votio.Mixfile do
      {:comeonin, "~> 1.6"},
      {:guardian_db, "~> 0.4"},
      {:guardian, "~> 0.9"},
+     {:ex_machina, "~> 0.6.1"},
      {:cowboy, "~> 1.0"}]
   end
 
