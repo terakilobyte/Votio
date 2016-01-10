@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import axios from 'axios';
+import {Socket} from 'phoenix';
 
 export default class Header extends React.Component {
 
@@ -9,11 +10,30 @@ export default class Header extends React.Component {
     this.handleClickAPI = this.handleClickAPI.bind(this);
     this.handleClickTest = this.handleClickTest.bind(this);
     this.request = axios.create({
-      baseURL: 'http://lvh.me:4000',
       headers: {'Authorization': 'Bearer ' + window.localStorage.jwt},
       timeout: 1000
     });
     this.handleClickPostAPI = this.handleClickPostAPI.bind(this);
+  }
+
+  componentDidMount () {
+    const socket = new Socket('/socket');
+    socket.connect();
+    /* eslint-disable */
+    const jwt = window.localStorage.jwt;
+    /* eslint-enable */
+    const topics = socket.channel('topics:lobby', {guardian_token: jwt});
+    topics.join()
+      .receive('ok', resp => {
+        console.log('Joined successfully', resp);
+      })
+      .receive('error', resp => {
+        console.log('Unable to join', resp);
+      });
+    topics.push('ping');
+    topics.on('pong', data => {
+      console.log(data);
+    });
   }
 
   handleClickAPI (e) {

@@ -22,7 +22,8 @@ module.exports = {
       components: __dirname + '/web/static/js/src/components',
       layouts: __dirname + '/web/static/js/src/layouts',
       views: __dirname + '/web/static/js/src/views',
-      actions: __dirname + '/web/static/js/src/redux/modules'
+      actions: __dirname + '/web/static/js/src/redux/modules',
+      socket: __dirname + '/web/static/js/socket'
     }
   },
   module: {

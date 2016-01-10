@@ -1,26 +1,29 @@
 defmodule Votio.TopicChannel do
   use Votio.Web, :channel
+  use Guardian.Channel
 
-  def join("topics:lobby", payload, socket) do
-    if authorized?(payload) do
-      {:ok, socket}
-    else
-      {:error, %{reason: "unauthorized"}}
-    end
+  def join("topics:lobby", %{claims: claim, resource: resource}, socket) do
+    {:ok, %{ message: "Joined"}, socket}
   end
 
-  # Channels can be used in a request/response fashion
-  # by sending replies to requests from the client
-  def handle_in("ping", payload, socket) do
-    {:reply, {:ok, payload}, socket}
+  def join("topics:lobby", _, socket) do
+    {:error, %{error: "authentication required"}}
+  end
+
+  def handle_in("ping", _payload, socket) do
+    user = Guardian.Channel.current_resource(socket)
+    push socket, "pong", %{ message: "pong", from: user.email}
+    {:reply, :ok, socket}
   end
 
   # It is also common to receive messages from the client and
-  # broadcast to everyone in the current topic (topics:lobby).
+  # broadcast to everyone in the current topic (votes:lobby).
   def handle_in("shout", payload, socket) do
     broadcast socket, "shout", payload
     {:noreply, socket}
   end
+
+
 
   # This is invoked every time a notification is being broadcast
   # to the client. The default implementation is just to push it
@@ -30,8 +33,4 @@ defmodule Votio.TopicChannel do
     {:noreply, socket}
   end
 
-  # Add authorization logic here as required.
-  defp authorized?(_payload) do
-    true
-  end
 end
