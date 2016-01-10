@@ -41,7 +41,8 @@ defmodule Votio.TopicTest do
 
   test "changeset is invalid with existing topic title" do
     insert_topic(@valid_attrs)
-    assert {:error, changeset} = insert_topic(@valid_attrs)
+    {:error, changeset} = insert_topic(@valid_attrs)
+    refute changeset.valid?
   end
 
   test "changeset validates if first time user votes on a topic" do
