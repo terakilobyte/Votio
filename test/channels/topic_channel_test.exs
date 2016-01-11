@@ -8,7 +8,7 @@ defmodule Votio.TopicChannelTest do
     user = create(:user)
     {:ok, jwt, full_claims} = Guardian.encode_and_sign(user)
     {:ok, _, socket} =
-    socket()
+      socket()
       |> subscribe_and_join(TopicChannel, "topics:lobby", %{"guardian_token" => "#{jwt}"})
 
     {:ok, socket: socket}

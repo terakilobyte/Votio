@@ -2,10 +2,15 @@ defmodule Votio.TopicChannel do
   use Votio.Web, :channel
   use Guardian.Channel
 
-  use Votio.Topic
+  alias Votio.TopicView
+
+  def join("topics:summary", _, socket) do
+    resp = %{message: Phoenix.View.render_many(Repo.all(Votio.Topic), TopicView, "show.json")}
+    {:ok, resp, socket}
+  end
 
   def join("topics:lobby", %{claims: claim, resource: resource}, socket) do
-    {:ok, %{ message: "Joined"}, socket}
+    {:ok, %{ message: "#{resource.name} joined"}, socket}
   end
 
   def join("topics:lobby", _, socket) do
@@ -19,7 +24,7 @@ defmodule Votio.TopicChannel do
   end
 
   def handle_in("new_topic", payload = %{topic: topic, categories: categories}, socket) do
-    push socket, payload
+    push socket, "new_topic", payload
     {:reply, :ok, socket}
   end
 
