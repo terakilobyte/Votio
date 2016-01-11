@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import {getJWTToken} from './auth';
 
 // ------------------------------------
 // Constants
@@ -38,7 +37,9 @@ export const actions = {
 
 const initialState = {
   topics: [],
-  nextID: 0
+  nextID: 0,
+  summarySocket: null,
+  voteSocket: null
 };
 
 export default handleActions({

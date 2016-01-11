@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import SocketHandler from 'components/SocketHandler';
 
 export default class Header extends React.Component {
 
@@ -80,6 +81,7 @@ export default class Header extends React.Component {
           </nav>
           <span className='logo'></span>
         </header>
+        <SocketHandler />
       </div>
     );
   }
