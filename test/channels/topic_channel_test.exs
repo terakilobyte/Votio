@@ -29,7 +29,7 @@ defmodule Votio.TopicChannelTest do
     assert_push "broadcast", %{"some" => "data"}
   end
 
-  test "authentication required to join channel" do
+  test "valid jwt required to join channel" do
     assert {:error, %{error: "authentication required"}} =
       socket()
     |> join(TopicChannel, "topics:lobby", %{})

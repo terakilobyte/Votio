@@ -14,13 +14,13 @@ export const LOGOUT = 'LOGOUT';
 // ------------------------------------
 export const jwtSuccess = createAction(JWT_SUCCESS, (payload) => payload);
 export const jwtFailure = createAction(JWT_FAILURE, (payload) => payload);
-export const jwtRequest = (dispatch, history) => {
+export const jwtDispatch = (dispatch, history, token) => {
   return (
     request
       .get('/credentials')
       .then((response) => {
         const user = response.data.user;
-        const jwt = response.data.jwt;
+        const jwt = token;
         history.push('/');
         dispatch(alertSuccess({success: 'Successfully signed in.'}));
         return dispatch(jwtSuccess({user, jwt}));

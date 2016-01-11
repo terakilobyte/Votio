@@ -3,7 +3,6 @@ defmodule Votio.UserSocket do
 
   ## Channels
   # channel "rooms:*", Votio.RoomChannel
-  channel "votes:*", Votio.VoteChannel
   channel "topics:*", Votio.TopicChannel
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

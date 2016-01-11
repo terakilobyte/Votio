@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {jwtRequest} from 'actions/auth';
+import {jwtDispatch} from 'actions/auth';
 import Spinner from 'components/Spinner';
 
 const mapStateToProps = () => ({});
@@ -18,7 +18,9 @@ export class Auth extends React.Component {
   }
 
   componentDidMount () {
-    jwtRequest(this.props.dispatch, this.props.history);
+    jwtDispatch(this.props.dispatch,
+                           this.props.history,
+                           document.querySelector('meta[name="guardian_token"]').content);
   }
 
   render () {
