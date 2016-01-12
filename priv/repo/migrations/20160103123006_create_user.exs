@@ -6,9 +6,11 @@ defmodule Votio.Repo.Migrations.CreateUser do
 
     create table(:users) do
       add :name, :string
-      add :email, :string
+      add :email, :citext
 
       timestamps
     end
+
+    create index(:users, [:email], unique: true)
   end
 end

@@ -65,9 +65,4 @@ defmodule Votio.TopicControllerTest do
     assert response(conn, 204)
     refute Repo.get(Topic, topic.id)
   end
-
-  test "topics is a protected resource" do
-    conn = get conn, topic_path(conn, :index)
-    assert json_response(conn, 401)
-  end
 end

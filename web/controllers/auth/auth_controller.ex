@@ -9,8 +9,6 @@ defmodule Votio.AuthController do
 
   plug Ueberauth
 
-  plug Guardian.Plug.EnsureAuthenticated, [handler: __MODULE__] when action in [:credentials]
-
   alias Votio.UserFromAuth
 
   def callback(%Plug.Conn{assigns: %{ueberauth_auth: auth}} = conn, _params, current_user, _claims) do

@@ -13,5 +13,9 @@ defmodule Votio.Repo.Migrations.CreateAuthorization do
 
       timestamps
     end
+
+    create index(:authorizations, [:provider, :uid], unique: true)
+    create index(:authorizations, [:expires_at])
+    create index(:authorizations, [:provider, :token])
   end
 end

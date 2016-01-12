@@ -17,20 +17,31 @@ defmodule Votio.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {Votio, []},
-     applications: [:ex_machina,
-                    :phoenix,
-                    :phoenix_html,
-                    :cowboy,
-                    :logger,
-                    :gettext,
-                    :phoenix_ecto,
-                    :postgrex,
-                    :oauth,
-                    :ueberauth_github,
-                    :ueberauth_identity,
-                    :comeonin
-                   ]]
+    [
+      mod: {Votio, []},
+      applications: applications(Mix.env)
+    ]
+  end
+
+  def applications(env) when env in [:test] do
+    applications(:default) ++ [:ex_machina]
+  end
+
+
+  def applications(_) do
+    [
+      :phoenix,
+      :phoenix_html,
+      :cowboy,
+      :logger,
+      :gettext,
+      :phoenix_ecto,
+      :postgrex,
+      :oauth2,
+      :ueberauth_github,
+      :ueberauth_identity,
+      :comeonin
+     ]
   end
 
   # Specifies which paths to compile per environment.
@@ -66,6 +77,15 @@ defmodule Votio.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"]]
+     "ecto.reset": ["ecto.drop", "ecto.setup"],
+     test: [&setup_db/1, "test"]
+    ]
+  end
+
+  defp setup_db(_) do
+    # Create the database, run migrations
+    Mix.Task.run "ecto.drop"
+    Mix.Task.run "ecto.create"
+    Mix.Task.run "ecto.migrate"
   end
 end

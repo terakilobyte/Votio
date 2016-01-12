@@ -11,9 +11,9 @@ defmodule Votio.GuardianToken do
     field :aud, :string
     field :iss, :string
     field :sub, :string
-    field :exp, :string
+    field :exp, :integer
     field :jwt, :string
-    field :claims, :string
+    field :claims, :map
 
     timestamps
   end
