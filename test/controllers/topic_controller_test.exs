@@ -9,6 +9,7 @@ defmodule Votio.TopicControllerTest do
 
 
   setup %{conn: conn} do
+    Repo.delete_all(Topic)
     user = create(:user)
     {:ok, jwt, full_claims} = Guardian.encode_and_sign(user)
     {:ok, %{user: user, jwt: jwt, claims: full_claims}}

@@ -20,6 +20,7 @@ export const jwtDispatch = (dispatch, history, token) => {
       .get('/credentials')
       .then((response) => {
         const user = response.data.user;
+        console.log(user);
         const jwt = token;
         history.push('/');
         dispatch(alertSuccess({success: 'Successfully signed in.'}));

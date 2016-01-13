@@ -3,9 +3,10 @@ defmodule Votio.TopicChannel do
   use Guardian.Channel
 
   alias Votio.TopicView
+  alias Votio.Topic
 
   def join("topics:summary", _, socket) do
-    resp = %{message: Phoenix.View.render_many(Repo.all(Votio.Topic), TopicView, "show.json")}
+    resp = Phoenix.View.render_many(Repo.all(Topic), TopicView, "show.json")
     {:ok, resp, socket}
   end
 
@@ -23,8 +24,26 @@ defmodule Votio.TopicChannel do
     {:reply, :ok, socket}
   end
 
-  def handle_in("new_topic", payload = %{topic: topic, categories: categories}, socket) do
-    push socket, "new_topic", payload
+  def handle_in("new_topic", %{"message" => payload}, socket) do
+    changeset = Topic.changeset(%Topic{}, payload)
+    case Repo.insert(changeset) do
+      {:ok, topic} ->
+        broadcast socket, "new_topic", Phoenix.View.render_one(topic, TopicView, "show.json")
+      {:error, changeset} ->
+        push socket, "error", %{message: changeset.errors}
+    end
+    {:reply, :ok, socket}
+  end
+
+  def handle_in("topic_vote", %{"message" => payload}, socket) do
+    topic = Repo.get(Topic, payload.id)
+    changeset = Topic.vote_changeset(topic, payload)
+    case Repo.update(changeset) do
+      {:ok, topic} ->
+        broadcast socket, "topic_vote", Phoenix.View.render_one(topic, TopicView, "show.json")
+      {:error, changeset} ->
+        push socket, "error", %{message: changeset.errors}
+    end
     {:reply, :ok, socket}
   end
 

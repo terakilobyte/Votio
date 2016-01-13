@@ -2,7 +2,12 @@ defmodule Votio.TopicChannelTest do
   use Votio.ChannelCase
 
   alias Votio.TopicChannel
+  alias Votio.Topic
+  alias Votio.TopicView
   import Votio.Factory
+
+  @valid_attrs %{"message" => %{"categories" => %{"yep" => 0, "nope" => 0}, "title" => "some content"}}
+  @invalid_attrs %{}
 
   setup do
     user = create(:user)
@@ -29,17 +34,24 @@ defmodule Votio.TopicChannelTest do
     assert_push "broadcast", %{"some" => "data"}
   end
 
-  test "valid jwt required to join channel" do
-    assert {:error, %{error: "authentication required"}} =
-      socket()
-    |> join(TopicChannel, "topics:lobby", %{})
-
+  test "updates the db on new_topic and broadcasts the topic", %{socket: socket} do
+    push socket, "new_topic", @valid_attrs
+    assert_broadcast "new_topic", %{data: %{categories: %{"yep" => 0, "nope" => 0}, id: _, title: "some content"}}
+    assert Repo.get_by(Topic, [title: "some content", categories: %{"yep" => 0, "nope" => 0}])
   end
 
-  test "joining with no payload fails" do
-    assert {:error, %{error: "authentication required"}} =
-      socket()
-    |> join(TopicChannel, "topics:lobby")
+  test "handles voting and broadcasts the change", %{socket: socket} do
+    changeset = Topic.vote_changeset(%Topic{}, Map.get(@valid_attrs, "message"))
+    topic =
+      Repo.insert!(changeset)
+      |> Phoenix.View.render_one(TopicView, "show.json")
+      |> Map.get(:data)
+      |> update_in([:categories, "yep"], &(&1 + 1))
+    push socket, "topic_vote", %{"message" => topic}
+    assert_broadcast "topic_vote", topic
+    the_topic = Repo.get(Topic, topic.data.id)
+    IO.inspect the_topic
+    assert Map.get(Repo.get(Topic, topic.data.id).categories, "yep") == 1
   end
 
 end
