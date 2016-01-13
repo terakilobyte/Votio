@@ -50,7 +50,7 @@ defmodule Votio.AuthController do
 
   def credentials(conn, _params, current_user, {:ok, claims}) do
     token = Guardian.Plug.current_token(conn)
-    user = %{name: current_user.name, email: current_user.email}
+    user = %{name: current_user.name, email: current_user.email, id: current_user.id}
     render conn, "credentials.json", %{ user: user, exp: claims["exp"], jwt: token }
   end
 
