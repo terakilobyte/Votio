@@ -30,7 +30,7 @@ defmodule Votio.TopicChannel do
       {:ok, topic} ->
         broadcast socket, "new_topic", Phoenix.View.render_one(topic, TopicView, "show.json")
       {:error, changeset} ->
-        push socket, "error", %{message: changeset.errors}
+        push socket, "error", %{error: "something went wrong"}
     end
     {:reply, :ok, socket}
   end
@@ -42,7 +42,7 @@ defmodule Votio.TopicChannel do
       {:ok, topic} ->
         broadcast socket, "topic_vote", Phoenix.View.render_one(topic, TopicView, "show.json")
       {:error, changeset} ->
-        push socket, "error", %{message: changeset.errors}
+        push socket, "error", %{error: "something went wrong"}
     end
     {:reply, :ok, socket}
   end
