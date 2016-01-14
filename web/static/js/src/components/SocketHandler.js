@@ -1,6 +1,7 @@
 import {Socket} from 'phoenix';
 import {getJWTToken} from 'actions/auth';
 import {connect} from 'react-redux';
+import {actions as socketActions} from 'actions/vote';
 
 const mapStateToProps = (state) => {
   return {
@@ -9,13 +10,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({dispatch});
-
 export class SocketHandler extends React.Component {
 
   static propTypes = {
     summarySocket: React.PropTypes.object,
-    voteSocket: React.PropTypes.object
+    voteSocket: React.PropTypes.object,
+    receiveTopic: React.PropTypes.func.isRequired,
+    receiveVote: React.PropTypes.func.isRequired
+
   }
 
   constructor (props)  {
@@ -23,19 +25,26 @@ export class SocketHandler extends React.Component {
   }
 
   componentDidMount () {
-    let summarySocket;
-    summarySocket = new Socket('/socket');
-    summarySocket.connect();
-    const topics = summarySocket
-            .channel('topics:summary', {})
-            .join()
-            .receive('ok', resp => {
-              console.log('got summary', resp);
-            })
-            .receive('error', resp => {
-              console.log('Unable to join', resp);
-            });
-  }
+    let topicSocket;
+    topicSocket = new Socket('/socket');
+    topicSocket.connect();
+    const topics = topicSocket.channel('topics:lobby', {guardian_token: getJWTToken()});
+    topics.join()
+      .receive('ok', resp => {
+        console.log('Joined successfully');
+      })
+      .receive('error', resp => {
+        console.log('Error joining');
+      });
+
+    topics.on('vote', data => {
+      this.props.receiveVote(data);
+    });
+
+    topics.on('new_topic', data => {
+      this.props.receiveTopic(data);
+    });
+ }
 
   render () {
     return (
@@ -44,4 +53,4 @@ export class SocketHandler extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SocketHandler);
+export default connect(mapStateToProps, socketActions)(SocketHandler);

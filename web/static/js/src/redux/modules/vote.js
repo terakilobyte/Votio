@@ -6,6 +6,9 @@ import { createAction, handleActions } from 'redux-actions';
 const RECEIVE_TOPIC = 'RECEIVE_TOPIC';
 const RECEIVE_VOTE = 'RECEIVE_VOTE';
 const RECEIVE_INITIAL_STATE = 'RECEIVE_INITIAL_STATE';
+const ASSIGN_VOTE_SOCKET = 'ASSIGN_VOTE_SOCKET';
+const PUSH_TOPIC = 'PUSH_TOPIC';
+const PUSH_VOTE = 'PUSH_VOTE';
 
 // ------------------------------------
 // Actions
@@ -13,22 +16,18 @@ const RECEIVE_INITIAL_STATE = 'RECEIVE_INITIAL_STATE';
 const receiveTopic = createAction(RECEIVE_TOPIC, (payload) => payload);
 const receiveVote = createAction(RECEIVE_VOTE, (payload) => payload);
 const receiveInitialState = createAction(RECEIVE_INITIAL_STATE, (payload) => payload);
-
+const assignVoteSocket = createAction(ASSIGN_VOTE_SOCKET, (payload) => payload);
+const pushTopic = createAction(PUSH_TOPIC, (payload) => payload);
+const pushVote = createAction(PUSH_VOTE, (payload) => payload);
 
 // Actions for our socket and observables
-const pushTopic = (payload) => payload;
-const pushVote = (payload) => payload;
-const handleReceivedTopic = (dispatch, payload) => dispatch(receiveTopic(payload));
-const handleReceivedVote = (dispatch, payload) => dispatch(receiveVote(payload));
-const handleReceivedInitialState = (dispatch, payload) => dispatch(receiveInitialState(payload));
-
-
 export const actions = {
+  assignVoteSocket,
+  receiveTopic,
+  receiveVote,
+  receiveInitialState,
   pushTopic,
-  pushVote,
-  handleReceivedTopic,
-  handleReceivedVote,
-  handleReceivedInitialState
+  pushVote
 };
 
 // ------------------------------------
@@ -37,7 +36,6 @@ export const actions = {
 
 const initialState = {
   topics: [],
-  nextID: 0,
   summarySocket: null,
   voteSocket: null
 };
@@ -46,12 +44,12 @@ export default handleActions({
 
   [RECEIVE_TOPIC]: (state, { payload }) => {
     payload.id = state.nextId;
-    return Object.assign({}, state, {topics: [...state.topics, payload], nextId: state.nextID + 1});
+    return Object.assign({}, state, {topics: [...state.topics, payload]});
   },
 
   [RECEIVE_VOTE]: (state, { payload }) => {
     const topics = state.topics.reduce((acc, curr) => {
-      if (curr.title === payload.title) {
+      if (curr.id === payload.id) {
         acc.push(payload);
       } else {
         acc.push(curr);
@@ -62,7 +60,19 @@ export default handleActions({
   },
 
   [RECEIVE_INITIAL_STATE]: (state, { payload }) => {
-    const nextID = payload.topics.length;
-    return Object.assign({}, state, payload, {nextID});
+    return Object.assign({}, state, payload);
+  },
+  [ASSIGN_VOTE_SOCKET]: (state, { payload }) => {
+    return Object.assign({}, state, {votesocket: payload});
+  },
+  [PUSH_TOPIC]: (state, { payload }) => {
+    const socket = state.voteSocket;
+    socket.push(payload);
+    return state;
+  },
+  [PUSH_TOPIC]: (state, { payload }) => {
+    const socket = state.voteSocket;
+    socket.push(payload);
+    return state;
   }
 }, initialState);

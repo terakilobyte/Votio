@@ -10,18 +10,8 @@ import {
 
 export default function configureStore (initialState) {
   let createStoreWithMiddleware;
-
   const middleware = applyMiddleware(thunk);
-
-  // if (window.devToolsExtension) {
-  //   createStoreWithMiddleware = compose(
-  //     middleware,
-  //     trackHistory(),
-  //     window.devToolsExtension()
-  //   );
-  // } else {
-    createStoreWithMiddleware = compose(middleware, trackHistory());
-  // }
+  createStoreWithMiddleware = compose(middleware, trackHistory());
 
   const store = createStoreWithMiddleware(createStore)(
     rootReducer, initialState
