@@ -20,7 +20,6 @@ export const jwtDispatch = (dispatch, history, token) => {
       .get('/credentials')
       .then((response) => {
         const user = response.data.user;
-        console.log(user);
         const jwt = token;
         history.push('/');
         dispatch(alertSuccess({success: 'Successfully signed in.'}));
@@ -66,7 +65,7 @@ const initialState = {
 export default handleActions({
   [JWT_SUCCESS]: (state, { payload }) => {
     Cookies.set('votio', payload, {expires: 30});
-    return Object.assign({}, state, {user: payload.user, authenticated: true});
+    return Object.assign({}, state, {user: payload, authenticated: true});
   },
   [JWT_FAILURE]: (state, { payload }) => {
     return Object.assign({}, state, payload);
