@@ -26,14 +26,15 @@ export const jwtDispatch = (dispatch, history, token) => {
         return dispatch(jwtSuccess({user, jwt}));
       })
       .catch((response) => {
+        console.log('error', response);
         history.push('/');
-        dispatch(alertError({error: response.data.error}));
+        dispatch(alertError({error: response.error}));
         return dispatch(jwtFailure({authFailed: true}));
       })
   );
 };
 
-export const getJWTToken = () => JSON.parse(Cookies.get('votio').jwt);
+export const getJWTToken = () => JSON.parse(Cookies.get('votio')).jwt;
 
 export const logout = createAction(LOGOUT, () => {
   return {
@@ -64,6 +65,7 @@ const initialState = {
 };
 export default handleActions({
   [JWT_SUCCESS]: (state, { payload }) => {
+    console.log(payload);
     Cookies.set('votio', payload, {expires: 30});
     return Object.assign({}, state, {user: payload, authenticated: true});
   },
