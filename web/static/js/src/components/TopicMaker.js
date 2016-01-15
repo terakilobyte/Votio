@@ -1,12 +1,18 @@
 import {connect} from 'react-redux';
 import {actions as alertActions} from 'actions/alerts';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.auth.authenticated
+  };
+};
 
 class TopicMaker extends React.Component {
 
   static propTypes = {
-    submitAction: React.PropTypes.func.isRequired
+    submitAction: React.PropTypes.func.isRequired,
+    alertError: React.PropTypes.func,
+    authenticated: React.PropTypes.bool
   };
 
   constructor (props) {
@@ -23,20 +29,24 @@ class TopicMaker extends React.Component {
   }
 
   handleSubmit () {
-    const toSubmit = {
-      title: this.refs.title.value,
-      categories: {}
-    };
+    if (this.props.authenticated) {
+      const toSubmit = {
+        title: this.refs.title.value,
+        categories: {}
+      };
 
-    let cat1, cat2;
-    cat1 = this.refs.category1.value;
-    cat2 = this.refs.category2.value;
-    toSubmit.categories[cat1] = 0;
-    toSubmit.categories[cat2] = 0;
-    this.props.submitAction(toSubmit);
-    this.refs.title.value = '';
-    this.refs.category1.value = '';
-    this.refs.category2.value = '';
+      let cat1, cat2;
+      cat1 = this.refs.category1.value;
+      cat2 = this.refs.category2.value;
+      toSubmit.categories[cat1] = 0;
+      toSubmit.categories[cat2] = 0;
+      this.props.submitAction(toSubmit);
+      this.refs.title.value = '';
+      this.refs.category1.value = '';
+      this.refs.category2.value = '';
+    } else {
+      this.props.alertError({'error': 'You must be logged in to post a new vote topic.'});
+    }
   }
 
   render () {

@@ -1,8 +1,13 @@
 import d3 from 'd3';
 import {connect} from 'react-redux';
 import {pushVote} from 'actions/vote';
+import {alertError} from 'actions/alerts';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.auth.authenticated
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
@@ -10,7 +15,8 @@ export class Topic extends React.Component {
 
   static propTypes = {
     elem: React.PropTypes.object.isRequired,
-    dispatch: React.PropTypes.func.isRequired
+    dispatch: React.PropTypes.func.isRequired,
+    authenticated: React.PropTypes.bool
   };
 
   componentDidMount () {
@@ -69,14 +75,18 @@ export class Topic extends React.Component {
 
   handleVote (key, e) {
     e.preventDefault();
-    let payload;
-    payload = {
-      id: this.props.elem.id,
-      title: this.props.elem.title,
-      categories: this.props.elem.categories
-    };
-    payload.categories[key] = payload.categories[key] + 1;
-    this.props.dispatch(pushVote(payload));
+    if (this.props.authenticated) {
+      let payload;
+      payload = {
+        id: this.props.elem.id,
+        title: this.props.elem.title,
+        categories: this.props.elem.categories
+      };
+      payload.categories[key] = payload.categories[key] + 1;
+      this.props.dispatch(pushVote(payload));
+    } else {
+      this.props.dispatch(alertError({'error': 'You must be logged in to vote'}));
+    }
   }
 
   render () {

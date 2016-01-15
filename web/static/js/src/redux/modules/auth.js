@@ -36,6 +36,7 @@ export const jwtDispatch = (dispatch, history, token) => {
 
 export const getJWTToken = () => JSON.parse(Cookies.get('votio')).jwt;
 
+
 export const logout = createAction(LOGOUT, () => {
   return {
     user: null,
@@ -63,9 +64,9 @@ const initialState = {
   error: null,
   authFailed: false
 };
+
 export default handleActions({
   [JWT_SUCCESS]: (state, { payload }) => {
-    console.log(payload);
     Cookies.set('votio', payload, {expires: 30});
     return Object.assign({}, state, {user: payload, authenticated: true});
   },
