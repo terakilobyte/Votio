@@ -34,6 +34,9 @@ class TopicMaker extends React.Component {
     toSubmit.categories[cat1] = 0;
     toSubmit.categories[cat2] = 0;
     this.props.submitAction(toSubmit);
+    this.refs.title.value = '';
+    this.refs.category1.value = '';
+    this.refs.category2.value = '';
   }
 
   render () {
