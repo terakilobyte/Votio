@@ -2,11 +2,7 @@ import d3 from 'd3';
 import {connect} from 'react-redux';
 import {pushVote} from 'actions/vote';
 
-const mapStateToProps = (state) => {
-  return {
-    topics: state.vote.topics
-  };
-};
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
@@ -17,50 +13,59 @@ export class Topic extends React.Component {
     dispatch: React.PropTypes.func.isRequired
   }
 
-  // drawChart () {
-  //   const div = document.getElementById('chart' + this.props.elem.id);
-  //   // while (div.firstChild) {
-  //   //   div.removeChild(div.firstChild);
-  //   // }
-  //   const data = Object.keys(this.props.elem.categories).map(key => {
-  //     return {
-  //       label: key,
-  //       value: this.props.elem.categories[key]
-  //     };
-  //   });
+  componentDidMount () {
+    this.drawChart();
+  }
 
-  //   const w = 128;
-  //   const h = 128;
-  //   const r = h / 2;
-  //   const color = d3.scale.category20c();
-  //   const vis = d3.select('#chart' + this.props.elem.id)
-  //           .append('svg:svg')
-  //           .data([data])
-  //           .attr('width', w)
-  //           .attr('height', h)
-  //           .append('svg:g')
-  //           .attr('transform', 'translate(' + r + ',' + r + ')');
-  //   const pie = d3.layout.pie().value(d => d.value);
+  componentWillReceiveProps () {
+    this.drawChart();
+  }
 
-  //   const arc = d3.svg.arc().outerRadius(r);
 
-  //   const arcs = vis.selectAll('g.slice')
-  //           .data(pie)
-  //           .enter()
-  //           .append('svg:g')
-  //           .attr('class', 'slice');
-  //   arcs.append('svg:path')
-  //     .attr('fill', (d, i) => color(i))
-  //     .attr('d', (d) => arc(d));
+  drawChart () {
+    const div = document.getElementById('chart' + this.props.elem.id);
+    while (div.firstChild) {
+      div.removeChild(div.firstChild);
+    }
+    const data = Object.keys(this.props.elem.categories).map(key => {
+      return {
+        label: key,
+        value: this.props.elem.categories[key]
+      };
+    });
 
-  //   // add the text
-  //   arcs.append('svg:text').attr('transform', d => {
-  //     d.innerRadius = 0;
-  //     d.outerRadius = r;
-  //     return 'translate(' + arc.centroid(d) + ')';
-  //   })
-  //   .attr('text-anchor', 'middle').text((d, i) => data[i].label);
-  // }
+    const w = 128;
+    const h = 128;
+    const r = h / 2;
+    const color = d3.scale.category20c();
+    const vis = d3.select('#chart' + this.props.elem.id)
+            .append('svg:svg')
+            .data([data])
+            .attr('width', w)
+            .attr('height', h)
+            .append('svg:g')
+            .attr('transform', 'translate(' + r + ',' + r + ')');
+    const pie = d3.layout.pie().value(d => d.value);
+
+    const arc = d3.svg.arc().outerRadius(r);
+
+    const arcs = vis.selectAll('g.slice')
+            .data(pie)
+            .enter()
+            .append('svg:g')
+            .attr('class', 'slice');
+    arcs.append('svg:path')
+      .attr('fill', (d, i) => color(i))
+      .attr('d', (d) => arc(d));
+
+    // add the text
+    arcs.append('svg:text').attr('transform', d => {
+      d.innerRadius = 0;
+      d.outerRadius = r;
+      return 'translate(' + arc.centroid(d) + ')';
+    })
+    .attr('text-anchor', 'middle').text((d, i) => data[i].label);
+  }
 
   handleVote (key, e) {
     e.preventDefault();
