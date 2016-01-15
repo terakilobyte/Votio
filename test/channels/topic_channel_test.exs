@@ -6,7 +6,7 @@ defmodule Votio.TopicChannelTest do
   alias Votio.TopicView
   import Votio.Factory
 
-  @valid_attrs %{"message" => %{"categories" => %{"yep" => 0, "nope" => 0}, "title" => "some content"}}
+  @valid_attrs %{"data" => %{"categories" => %{"yep" => 0, "nope" => 0}, "title" => "some content"}}
   @invalid_attrs %{}
 
   setup do
@@ -41,17 +41,18 @@ defmodule Votio.TopicChannelTest do
   end
 
   test "handles voting and broadcasts the change", %{socket: socket} do
-    changeset = Topic.vote_changeset(%Topic{}, Map.get(@valid_attrs, "message"))
-    topic =
+    changeset = Topic.vote_changeset(%Topic{}, Map.get(@valid_attrs, "data"))
+    {:ok, topic} =
       Repo.insert!(changeset)
       |> Phoenix.View.render_one(TopicView, "show.json")
       |> Map.get(:data)
       |> update_in([:categories, "yep"], &(&1 + 1))
-    push socket, "topic_vote", %{"message" => topic}
-    assert_broadcast "topic_vote", topic
+      |> Poison.encode
+    {:ok, json} = Poison.decode topic
+    push socket, "vote", %{"data" => json}
+    assert_broadcast "vote", topic
     the_topic = Repo.get(Topic, topic.data.id)
     IO.inspect the_topic
     assert Map.get(Repo.get(Topic, topic.data.id).categories, "yep") == 1
   end
-
 end

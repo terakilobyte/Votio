@@ -37,9 +37,7 @@ defmodule Votio.TopicChannel do
 
   def handle_in("vote", %{"data" => payload}, socket) do
     topic = Repo.get(Topic, payload["id"])
-    IO.puts "Found the topic"
     changeset = Topic.vote_changeset(topic, payload)
-    IO.puts "Made the changeset"
     case Repo.update(changeset) do
       {:ok, topic} ->
         broadcast socket, "vote", Phoenix.View.render_one(topic, TopicView, "show.json")
