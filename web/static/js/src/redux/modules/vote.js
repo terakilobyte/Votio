@@ -43,7 +43,6 @@ const initialState = {
 export default handleActions({
 
   [RECEIVE_TOPIC]: (state, { payload }) => {
-    payload.id = state.nextId;
     return Object.assign({}, state, {topics: [...state.topics, payload]});
   },
 
