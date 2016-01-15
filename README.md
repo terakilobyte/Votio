@@ -1,6 +1,7 @@
 # Votio
 
-# Authentication is now handled on the server, and testable on the client!.
+You'll need to set your github environmental variables appropriately. Look in `config.ex` if you'd rather just hardcode them in for testing.
+
 
 To start the application:
 

@@ -39,13 +39,11 @@ const initialState = {
   summarySocket: null,
   voteSocket: null
 };
-
 export default handleActions({
 
   [RECEIVE_TOPIC]: (state, { payload }) => {
     return Object.assign({}, state, {topics: [...state.topics, payload]});
   },
-
   [RECEIVE_VOTE]: (state, { payload }) => {
     const topics = state.topics.reduce((acc, curr) => {
       if (curr.data.id === payload.data.id) {
@@ -57,7 +55,6 @@ export default handleActions({
     }, []);
     return Object.assign({}, state, {topics});
   },
-
   [RECEIVE_INITIAL_STATE]: (state, { payload }) => {
     return Object.assign({}, state, {topics: payload});
   },
