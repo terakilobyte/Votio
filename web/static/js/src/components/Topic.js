@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {pushVote} from 'actions/vote';
 
 const mapStateToProps = (state) => {
-  console.log('new state', state);
   return {
     topics: state.vote.topics
   };
@@ -16,10 +15,6 @@ export class Topic extends React.Component {
   static propTypes = {
     elem: React.PropTypes.object.isRequired,
     dispatch: React.PropTypes.func.isRequired
-  }
-
-  componentWillReceiveProps (props) {
-    console.log('got new props');
   }
 
   // drawChart () {
@@ -80,7 +75,7 @@ export class Topic extends React.Component {
   }
 
   render () {
-    let categories = Object.keys(this.props.elem.categories).map((key, ix) => {
+    const categories = Object.keys(this.props.elem.categories).map((key, ix) => {
       return (
         <div className='col-xs-6 btn btn-info'
              key={ix}

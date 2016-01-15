@@ -39,7 +39,6 @@ export class SocketHandler extends React.Component {
       });
 
     topics.on('vote', data => {
-      console.log('got vote', data.data.categories);
       this.props.dispatch(receiveVote(data));
     });
 
