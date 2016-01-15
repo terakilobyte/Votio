@@ -7,7 +7,7 @@ class TopicMaker extends React.Component {
 
   static propTypes = {
     submitAction: React.PropTypes.func.isRequired
-  }
+  };
 
   constructor (props) {
     super(props);

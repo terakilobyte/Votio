@@ -6,7 +6,8 @@ export default class Root extends React.Component {
     history: React.PropTypes.object.isRequired,
     routes: React.PropTypes.element.isRequired,
     store: React.PropTypes.object.isRequired
-  }
+  };
+
   get content () {
     return (
       <Router history={this.props.history}>

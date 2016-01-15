@@ -14,7 +14,7 @@ class VoteDisplay extends React.Component {
   static propTypes = {
     topics: React.PropTypes.array.isRequired,
     pushTopic: React.PropTypes.func.isRequired
-  }
+  };
 
   render () {
     const topicList = this.props.topics.map(elem => {

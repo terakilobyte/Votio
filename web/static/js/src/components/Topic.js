@@ -11,7 +11,7 @@ export class Topic extends React.Component {
   static propTypes = {
     elem: React.PropTypes.object.isRequired,
     dispatch: React.PropTypes.func.isRequired
-  }
+  };
 
   componentDidMount () {
     this.drawChart();

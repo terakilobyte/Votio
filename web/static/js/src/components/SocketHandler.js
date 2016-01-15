@@ -20,7 +20,7 @@ export class SocketHandler extends React.Component {
     voteSocket: React.PropTypes.object,
     dispatch: React.PropTypes.func.isRequired
 
-  }
+  };
 
   constructor (props)  {
     super(props);

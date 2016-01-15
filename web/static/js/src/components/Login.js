@@ -1,6 +1,6 @@
 export default class Login extends React.Component {
   static propTypes = {
-  }
+  };
 
   render () {
     const auth = 'Sign up or Sign in';

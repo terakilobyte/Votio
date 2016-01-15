@@ -18,7 +18,6 @@
     "karma-chai-equal-jsx": "^1.0.11",
     "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.7",
-    "karma-jsx-chai": "github:terakilobyte/karma-jsx-chai",
     "karma-safari-launcher": "^0.1.1",
     "phantomjs-polyfill": "0.0.1",
     "react": "^0.14.0",
@@ -32,7 +31,6 @@
     "redux-state-history": "^0.1.4",
     "redux-thunk": "^1.0.0",
     "spec": "^1.0.1",
-    "superagent": "^1.6.1",
     "webpack": "^1.12.9",
     "yargs": "^3.18.0"
   },

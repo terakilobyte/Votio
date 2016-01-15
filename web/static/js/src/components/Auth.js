@@ -11,7 +11,7 @@ export class Auth extends React.Component {
   static propTypes = {
     history: React.PropTypes.object.isRequired,
     dispatch: React.PropTypes.func.isRequired
-  }
+  };
 
   constructor (props) {
     super(props);

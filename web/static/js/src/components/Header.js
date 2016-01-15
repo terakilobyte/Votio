@@ -13,7 +13,7 @@ export class Header extends React.Component {
   static propTypes = {
     user: React.PropTypes.object,
     dispatch: React.PropTypes.func.isRequired
-  }
+  };
 
   constructor (props) {
     super(props);
