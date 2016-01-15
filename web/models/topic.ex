@@ -30,7 +30,7 @@ defmodule Votio.Topic do
         true -> []
       end
     end)
-    |> validate_length(:title, min: 5, message: "Your title must be at least 5 characters")
+    |> validate_length(:title, min: 5)
   end
 
   def vote_changeset(model, params \\ :invalid) do

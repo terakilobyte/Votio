@@ -2,16 +2,17 @@ import { Link } from 'react-router';
 import {connect} from 'react-redux';
 import {Socket} from 'phoenix';
 import SocketHandler from 'components/SocketHandler';
+import {actions as voteActions} from 'actions/vote';
+import {actions as alertActions} from 'actions/alerts';
 
 const mapStateToProps = (state) => ({user: state.auth.user});
-
-const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export class Header extends React.Component {
 
 
   static propTypes = {
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    dispatch: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -22,14 +23,16 @@ export class Header extends React.Component {
     let summarySocket;
     summarySocket = new Socket('/socket');
     summarySocket.connect();
-    let topics = summarySocket
+    summarySocket
             .channel('topics:summary', {})
             .join()
             .receive('ok', resp => {
-              console.log('got summary', resp);
+              this.props.dispatch(voteActions.receiveInitialState(resp));
+              summarySocket.disconnect();
             })
             .receive('error', resp => {
-              console.log('Unable to join', resp);
+              this.props.dispatch(alertActions.alertError(resp));
+              summarySocket.disconnect();
             });
   }
 
@@ -61,4 +64,4 @@ export class Header extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);

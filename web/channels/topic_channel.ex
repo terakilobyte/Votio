@@ -24,7 +24,7 @@ defmodule Votio.TopicChannel do
     {:reply, :ok, socket}
   end
 
-  def handle_in("new_topic", %{"message" => payload}, socket) do
+  def handle_in("new_topic", %{"data" => payload}, socket) do
     changeset = Topic.changeset(%Topic{}, payload)
     case Repo.insert(changeset) do
       {:ok, topic} ->
@@ -35,12 +35,14 @@ defmodule Votio.TopicChannel do
     {:reply, :ok, socket}
   end
 
-  def handle_in("topic_vote", %{"message" => payload}, socket) do
-    topic = Repo.get(Topic, payload.id)
+  def handle_in("vote", %{"data" => payload}, socket) do
+    topic = Repo.get(Topic, payload["id"])
+    IO.puts "Found the topic"
     changeset = Topic.vote_changeset(topic, payload)
+    IO.puts "Made the changeset"
     case Repo.update(changeset) do
       {:ok, topic} ->
-        broadcast socket, "topic_vote", Phoenix.View.render_one(topic, TopicView, "show.json")
+        broadcast socket, "vote", Phoenix.View.render_one(topic, TopicView, "show.json")
       {:error, changeset} ->
         push socket, "error", %{error: "something went wrong"}
     end
