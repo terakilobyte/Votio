@@ -66,7 +66,9 @@ defmodule Votio.Mixfile do
      {:guardian_db, "~> 0.4"},
      {:guardian, "~> 0.9"},
      {:ex_machina, "~> 0.6.1"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:credo, "~> 0.2", only: [:dev, :test]}
+    ]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
