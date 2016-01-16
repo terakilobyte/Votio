@@ -1,5 +1,5 @@
 import {Socket} from 'phoenix';
-import {getJWTToken} from 'actions/auth';
+import {getJWT} from 'actions/auth';
 import {connect} from 'react-redux';
 import {receiveVote, receiveTopic, assignVoteSocket} from 'actions/vote';
 import {alertError} from 'actions/alerts';
@@ -30,7 +30,7 @@ export class SocketHandler extends React.Component {
     let topicSocket;
     topicSocket = new Socket('/socket');
     topicSocket.connect();
-    const topics = topicSocket.channel('topics:lobby', {guardian_token: getJWTToken()});
+    const topics = topicSocket.channel('topics:lobby', {guardian_token: getJWT()});
     topics.join()
       .receive('ok', () => {
       })

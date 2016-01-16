@@ -26,7 +26,6 @@ export const jwtDispatch = (dispatch, history, token) => {
         return dispatch(jwtSuccess({user, jwt}));
       })
       .catch((response) => {
-        console.log('error', response);
         history.push('/');
         dispatch(alertError({error: response.error}));
         return dispatch(jwtFailure({authFailed: true}));
@@ -34,7 +33,7 @@ export const jwtDispatch = (dispatch, history, token) => {
   );
 };
 
-export const getJWTToken = () => JSON.parse(Cookies.get('votio')).jwt;
+export const getJWT = () => JSON.parse(Cookies.get('votio')).jwt;
 
 
 export const logout = createAction(LOGOUT, () => {
