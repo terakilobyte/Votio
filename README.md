@@ -1,5 +1,7 @@
 # Votio
 
+![Image of Application](https://s3.amazonaws.com/terakilobyte.com/Votio/Screenshot+2016-01-15+17.08.43.png)
+
 You'll need to set your github environmental variables appropriately. Look in `config.ex` if you'd rather just hardcode them in for testing.
 
 
