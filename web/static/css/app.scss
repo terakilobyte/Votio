@@ -77,3 +77,11 @@ form.link, form.button {
 .vert-space-5 {
   margin-top: 5px;
 }
+
+.vote-button {
+  margin: 0 20px;
+}
+
+div.vote-button:nth-child(2) {
+  float: right;
+}

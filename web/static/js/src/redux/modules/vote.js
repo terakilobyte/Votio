@@ -30,6 +30,12 @@ export const actions = {
   pushVote
 };
 
+const pushAction = (socket, message, payload) => {
+  if (socket) {
+    socket.push(message, payload);
+  }
+};
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -62,11 +68,11 @@ export default handleActions({
     return Object.assign({}, state, {voteSocket: payload});
   },
   [PUSH_TOPIC]: (state, { payload }) => {
-    state.voteSocket.push('new_topic', {data: payload});
+    pushAction(state.voteSocket, 'new_topic', {data: payload});
     return state;
   },
   [PUSH_VOTE]: (state, { payload }) => {
-    state.voteSocket.push('vote', {data: payload});
+    pushAction(state.voteSocket, 'vote', {data: payload});
     return state;
   }
 }, initialState);

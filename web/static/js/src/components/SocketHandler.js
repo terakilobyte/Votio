@@ -30,7 +30,8 @@ export class SocketHandler extends React.Component {
     let topicSocket;
     topicSocket = new Socket('/socket');
     topicSocket.connect();
-    const topics = topicSocket.channel('topics:lobby', {guardian_token: getJWT()});
+    const topics = topicSocket.channel('topics:lobby',
+                                       {guardian_token: getJWT()});
     topics.join()
       .receive('ok', () => {
       })

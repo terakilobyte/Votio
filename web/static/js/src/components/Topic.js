@@ -1,7 +1,7 @@
-import d3 from 'd3';
 import {connect} from 'react-redux';
 import {pushVote} from 'actions/vote';
 import {alertError} from 'actions/alerts';
+import d3 from 'd3';
 
 const mapStateToProps = (state) => {
   return {
@@ -33,12 +33,16 @@ export class Topic extends React.Component {
     while (div.firstChild) {
       div.removeChild(div.firstChild);
     }
-    const data = Object.keys(this.props.elem.categories).map(key => {
+    let data = Object.keys(this.props.elem.categories).map(key => {
       return {
         label: key,
         value: this.props.elem.categories[key]
       };
-    });
+    })
+            .filter(elem => elem.value !== 0);
+    if (!data.length) {
+      data = [{label: 'no votes', value: 1}];
+    }
 
     const w = 128;
     const h = 128;
@@ -92,7 +96,7 @@ export class Topic extends React.Component {
   render () {
     const categories = Object.keys(this.props.elem.categories).map((key, ix) => {
       return (
-        <div className='col-xs-6 btn btn-info'
+        <div className='vote-button col-xs-4 btn btn-info'
              key={ix}
              onClick={this.handleVote.bind(this, key)}>
           {key}: {this.props.elem.categories[key]}
