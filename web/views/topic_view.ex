@@ -12,6 +12,7 @@ defmodule Votio.TopicView do
   def render("topic.json", %{topic: topic}) do
     %{id: topic.id,
       title: topic.title,
+      voted_by: topic.voted_by,
       categories: topic.categories}
   end
 

@@ -27,6 +27,7 @@ defmodule Votio.TopicControllerTest do
     conn = get conn, topic_path(conn, :show, topic)
     assert json_response(conn, 200)["data"] == %{"id" => topic.id,
       "title" => topic.title,
+      "voted_by" => topic.voted_by,
       "categories" => topic.categories}
   end
 

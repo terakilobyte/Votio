@@ -52,7 +52,25 @@ defmodule Votio.TopicChannelTest do
     push socket, "vote", %{"data" => json}
     assert_broadcast "vote", topic
     the_topic = Repo.get(Topic, topic.data.id)
-    IO.inspect the_topic
     assert Map.get(Repo.get(Topic, topic.data.id).categories, "yep") == 1
+  end
+
+  test "a user cannot vote twice", %{socket: socket} do
+    user = Guardian.Channel.current_resource(socket)
+    change_data =
+      Map.merge(Map.get(@valid_attrs, "data"), %{"voted_by" => [user.id]})
+      |> update_in(["categories", "yep"], &(&1 + 1))
+    changeset = Topic.vote_changeset(%Topic{}, change_data)
+    {:ok, topic} =
+      Repo.insert!(changeset)
+    |> Phoenix.View.render_one(TopicView, "show.json")
+    |> Map.get(:data)
+    |> update_in([:categories, "yep"], &(&1 + 1))
+    |> Poison.encode
+    {:ok, json} = Poison.decode topic
+    push socket, "vote", %{"data" => update_in(json, ["voted_by"], fn _ ->
+                          [user.id, user.id] end)}
+    assert_push "error", %{error: "something went wrong"}
+
   end
 end
