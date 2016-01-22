@@ -33,7 +33,8 @@ export class SocketHandler extends React.Component {
     const topics = topicSocket.channel('topics:lobby',
                                        {guardian_token: getJWT()});
     topics.join()
-      .receive('ok', () => {
+      .receive('ok', resp => {
+        console.log(resp);
       })
       .receive('error', resp => {
         this.props.dispatch(alertError(resp));
